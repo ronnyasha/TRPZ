@@ -1,0 +1,84 @@
+@startuml
+package "model" {
+  class CrawlProfile {
+    +id: Long
+    +name: String
+    +startUrls: List<String>
+    +maxDepth: int
+    +domainFilter: String
+    +keywords: List<String>
+  }
+
+  class ScanSession {
+    +id: Long
+    +profileName: String
+    +startTime: LocalDateTime
+    +endTime: LocalDateTime
+    +status: String
+  }
+
+  class PageData {
+    +id: Long
+    +sessionId: Long
+    +url: String
+    +plainText: String
+    +keywordCounts: Map<String,Integer>
+  }
+}
+
+package "repository" {
+  interface Repository<T,ID> {
+    +save(entity: T)
+    +findById(id: ID)
+    +findAll()
+  }
+
+  class InMemoryProfileRepository
+  class InMemorySessionRepository
+  class InMemoryPageRepository
+}
+
+package "http" {
+  interface HttpClient {
+    +get(url: String): String
+  }
+  class RealHttpClient
+  class HttpClientProxy
+}
+
+package "core" {
+  class CrawlerService
+  class UrlScheduler
+  class DefaultContentProcessorFactory
+}
+
+package "processing" {
+  class PageProcessingContext
+  abstract class PageHandler
+  class RemoveScriptsHandler
+  class RemoveAdsHandler
+  class ExtractTextHandler
+  class KeywordSearchHandler
+}
+
+Repository <|.. InMemoryProfileRepository
+Repository <|.. InMemorySessionRepository
+Repository <|.. InMemoryPageRepository
+
+HttpClient <|.. RealHttpClient
+HttpClient <|.. HttpClientProxy
+
+CrawlerService --> HttpClient
+CrawlerService --> UrlScheduler
+CrawlerService --> DefaultContentProcessorFactory
+CrawlerService --> InMemoryProfileRepository
+CrawlerService --> InMemorySessionRepository
+CrawlerService --> InMemoryPageRepository
+
+PageHandler <|-- RemoveScriptsHandler
+PageHandler <|-- RemoveAdsHandler
+PageHandler <|-- ExtractTextHandler
+PageHandler <|-- KeywordSearchHandler
+
+PageHandler --> PageProcessingContext
+@enduml

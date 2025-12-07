@@ -1,0 +1,29 @@
+@startuml
+actor User
+participant SettingsForm
+participant CrawlerService
+participant InMemoryProfileRepository as ProfileRepo
+participant InMemorySessionRepository as SessionRepo
+participant UrlScheduler
+participant HttpClient
+participant PageHandler
+participant InMemoryPageRepository as PageRepo
+
+User -> SettingsForm: choose profile & start
+SettingsForm -> ProfileRepo: getProfile(id)
+ProfileRepo --> SettingsForm: CrawlProfile
+SettingsForm -> CrawlerService: runProfile(profileId)
+CrawlerService -> SessionRepo: createSession(profileName)
+SessionRepo --> CrawlerService: ScanSession
+CrawlerService -> UrlScheduler: addStartUrls()
+loop for each URL
+  CrawlerService -> UrlScheduler: nextUrl()
+  UrlScheduler --> CrawlerService: url, depth
+  CrawlerService -> HttpClient: get(url)
+  HttpClient --> CrawlerService: html
+  CrawlerService -> PageHandler: handle(ctx)
+  PageHandler --> CrawlerService: processed ctx
+  CrawlerService -> PageRepo: create(sessionId, url, text, counts)
+end
+CrawlerService -> SessionRepo: markCompleted()
+@enduml

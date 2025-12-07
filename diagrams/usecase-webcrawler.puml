@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+actor User
+actor Admin
+
+rectangle "Web Crawler System" {
+  usecase "Configure scan profile" as UC1
+  usecase "Run scan" as UC2
+  usecase "View results" as UC3
+  usecase "Export results" as UC4
+  usecase "View statistics" as UC5
+  usecase "Manage users" as UC6
+  usecase "Configure system limits" as UC7
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+
+Admin --> UC6
+Admin --> UC7
+@enduml

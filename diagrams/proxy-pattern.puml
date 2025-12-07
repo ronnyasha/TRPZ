@@ -1,0 +1,17 @@
+@startuml
+interface HttpClient {
+  +get(url: String): String
+}
+
+class RealHttpClient
+class HttpClientProxy {
+  -realClient: HttpClient
+  -proxyHost: String
+  -proxyPort: int
+}
+
+HttpClient <|.. RealHttpClient
+HttpClient <|.. HttpClientProxy
+
+HttpClientProxy --> RealHttpClient
+@enduml
