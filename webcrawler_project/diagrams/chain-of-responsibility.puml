@@ -1,0 +1,26 @@
+@startuml
+abstract class PageHandler {
+  -next: PageHandler
+  +setNext(h: PageHandler)
+  +handle(ctx: PageProcessingContext)
+  #process(ctx: PageProcessingContext)
+}
+
+class RemoveScriptsHandler
+class RemoveAdsHandler
+class ExtractTextHandler
+class KeywordSearchHandler
+
+class PageProcessingContext
+
+PageHandler <|-- RemoveScriptsHandler
+PageHandler <|-- RemoveAdsHandler
+PageHandler <|-- ExtractTextHandler
+PageHandler <|-- KeywordSearchHandler
+
+PageHandler --> PageProcessingContext
+
+RemoveScriptsHandler --> RemoveAdsHandler : next
+RemoveAdsHandler --> ExtractTextHandler : next
+ExtractTextHandler --> KeywordSearchHandler : next
+@enduml

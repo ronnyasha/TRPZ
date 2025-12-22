@@ -1,0 +1,21 @@
+@startuml
+title Lab 8 - Composite (site map)
+
+interface SiteComponent {
+  +print(indent)
+  +getPageCount(): int
+}
+
+class SiteGroup {
+  children : List<SiteComponent>
+  +add(child)
+}
+
+class PageLeaf {
+  url : String
+}
+
+SiteGroup ..|> SiteComponent
+PageLeaf ..|> SiteComponent
+SiteGroup o-- SiteComponent : children
+@enduml

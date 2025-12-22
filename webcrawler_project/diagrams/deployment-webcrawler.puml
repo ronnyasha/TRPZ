@@ -1,0 +1,18 @@
+@startuml
+node "Client Machine" {
+  component "UI Module"
+}
+
+node "Application Server" {
+  component "Crawler Core"
+  component "Data Access Layer"
+  component "Statistics Module"
+}
+
+node "DB Server" {
+  database "DB"
+}
+
+"Client Machine" --> "Application Server": HTTP
+"Application Server" --> "DB Server": JDBC/TCP
+@enduml

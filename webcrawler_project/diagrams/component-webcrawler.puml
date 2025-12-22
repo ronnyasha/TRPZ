@@ -1,0 +1,15 @@
+@startuml
+component "UI Module" as UI
+component "Crawler Core" as CORE
+component "Data Access Layer" as DAL
+component "Statistics Module" as STATS
+database "DB" as DB
+component "HTTP Client" as HTTP
+
+UI --> CORE
+CORE --> DAL
+CORE --> HTTP
+UI --> STATS
+STATS --> DAL
+DAL --> DB
+@enduml

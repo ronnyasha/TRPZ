@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant ResultsForm
+participant InMemorySessionRepository as SessionRepo
+participant InMemoryPageRepository as PageRepo
+
+User -> ResultsForm: open results
+ResultsForm -> SessionRepo: findAll()
+SessionRepo --> ResultsForm: sessions
+User -> ResultsForm: select session
+ResultsForm -> PageRepo: findBySessionId(sessionId)
+PageRepo --> ResultsForm: pages
+ResultsForm --> User: show table of pages
+@enduml

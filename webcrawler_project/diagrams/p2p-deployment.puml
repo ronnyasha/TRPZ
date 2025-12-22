@@ -1,0 +1,12 @@
+@startuml
+title Lab 9 - P2P URL exchange (TCP)
+
+node "Peer 1" {
+  [Crawler] --> [SocketPeerNode]
+}
+node "Peer 2" {
+  [Crawler] --> [SocketPeerNode]
+}
+
+[SocketPeerNode] <--> [SocketPeerNode] : url|depth
+@enduml

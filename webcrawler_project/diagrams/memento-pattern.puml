@@ -1,0 +1,22 @@
+@startuml
+title Lab 6 - Memento (UrlScheduler checkpoint)
+
+class UrlScheduler {
+  +createMemento(): SchedulerMemento
+  +restore(m: SchedulerMemento)
+  +acceptExternalUrl(url, depth)
+}
+
+class SchedulerMemento <<Memento>> {
+  queuedItems : List<String>
+  seenUrls : Set<String>
+}
+
+class SchedulerCaretaker <<Caretaker>> {
+  +save(sessionId, memento)
+  +get(sessionId): SchedulerMemento
+}
+
+UrlScheduler --> SchedulerMemento : creates
+SchedulerCaretaker o--> SchedulerMemento : stores
+@enduml

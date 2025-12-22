@@ -1,0 +1,17 @@
+@startuml
+title Lab 7 - Template Method (crawl algorithm)
+
+abstract class AbstractCrawlTemplate {
+  +execute(profile, options): ScanSession
+  #fetch(url): String
+  #processAndPersist(session, profile, url, html): PageData
+  #discoverLinks(html): List<String>
+  #onLinksDiscovered(...)
+}
+
+class DefaultCrawlTemplate
+class P2PCrawlTemplate
+
+DefaultCrawlTemplate --|> AbstractCrawlTemplate
+P2PCrawlTemplate --|> DefaultCrawlTemplate
+@enduml
